@@ -13,7 +13,27 @@ class UserController {
             const { password: _, ...rest } = user;
             return res.json({ user: rest });
         } catch (error) {
-            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
+        }
+    }
+    static async getUsersByIds(req, res) {
+        try {
+            const { ids } = req.body;
+            const users = await prisma.user.findMany({
+                where: {
+                    id: {
+                        in: ids
+                    }
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            })
+            return res.json({ users });
+        } catch (error) {
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
     }
 }
