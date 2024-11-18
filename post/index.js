@@ -16,8 +16,8 @@ app.get(`/`, (req, res) => {
 });
 
 // Routes
-// import Routes from "./routes/index.js";
-// app.use("/api", Routes);
+import Routes from "./routes/index.js";
+app.use("/api", Routes);
 
 const PORT = process.env.PORT || 8002;
 app.listen(PORT, () => {
