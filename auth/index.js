@@ -12,12 +12,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get(`/`, (req, res) => {
-    return res.json({ message: "Auth Service Wroking" });
+    return res.json({ message: "Auth Service Wroking." });
 });
 
 // Routes
 import Routes from "./routes/index.js";
-app.use(Routes);
+app.use("/api", Routes);
 
 const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
