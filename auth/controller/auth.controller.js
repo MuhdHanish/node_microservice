@@ -50,7 +50,7 @@ class AuthController {
             })
             return res.status(200).json({ message: "Login successful!", token: `Bearer ${token}` });
         } catch (error) {
-            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
     }
     static async user(req, res) {
@@ -58,7 +58,7 @@ class AuthController {
             const user = req.user;
             return res.json({ user });
         } catch (error) {
-            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
     }
 }

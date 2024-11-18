@@ -6,7 +6,7 @@ class PostController {
             const posts = await prisma.post.findMany({});
             return res.json({ posts });
         } catch (error) {
-            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
     }
     static async create(req, res) {
@@ -25,7 +25,7 @@ class PostController {
             });
             return res.status(201).json({ message: "Post created successfully!", post });
         } catch (error) {
-            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+            return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
     }
 }
