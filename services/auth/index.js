@@ -12,14 +12,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get(`/`, (req, res) => {
-    return res.json({ message: "Post Service Wroking." });
+    return res.json({ message: "Auth Service Wroking." });
 });
 
 // Routes
 import Routes from "./routes/index.js";
 app.use("/api", Routes);
 
-const PORT = process.env.PORT || 8002;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
-    console.log(`Post Service started on port ${PORT}`);
+    console.log(`Auth Service running on http://localhost:${PORT}`);
 });
