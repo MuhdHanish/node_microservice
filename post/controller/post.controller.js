@@ -16,11 +16,14 @@ class PostController {
                 throw new Error(`Failed to fetch users by IDs`);
             }
             const data = await response.json();
-            const users = data?.users || [];
+            const users = {};
+            data?.users?.forEach(user => {
+                users[user?.id] = user;
+            });
             const postsWithUsers = posts?.map((post) => {
                 return {
                     ...post,
-                    user_id: users?.find((user) => user?.id === post?.user_id) || null
+                    user_id: users[post?.user_id]
                 };
             })
             return res.json({ posts: postsWithUsers });
