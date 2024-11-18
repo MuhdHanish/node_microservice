@@ -19,6 +19,9 @@ class AuthController {
             });
             return res.status(201).json({ message: "Account created sucessfully!", user });
         } catch (error) {
+            if (error.code === "P2002" && error.meta?.target.includes("email")) {
+                return res.status(409).json({ message: "Email already registered!" });
+            }
             return res.status(500).json({ message: "Something went wrong, plesae try again." });
         }
     }
