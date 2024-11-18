@@ -4,7 +4,27 @@ class PostController {
     static async posts(req, res) {
         try {
             const posts = await prisma.post.findMany({});
-            return res.json({ posts });
+            const postsWithUsers = await Promise.all(
+                posts.map(async (post) => {
+                    try {
+                        const response = await fetch(`${process.env.AUTH_SERVICE_URL}/api/user/${post?.user_id}`);
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch user info for user_id: ${post?.user_id}`);
+                        }
+                        const data = await response.json();
+                        return {
+                            ...post,
+                            user_id: data?.user || null,
+                        };
+                    } catch (error) {
+                        return {
+                            ...post,
+                            user_id: null, 
+                        };
+                    }
+                })
+            );
+            return res.json({ posts: postsWithUsers });
         } catch (error) {
             return res.status(500).json({ message: "Something went wrong, plesae try again.", error: error?.message || "Unexpected error." });
         }
