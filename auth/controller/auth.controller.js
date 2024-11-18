@@ -54,8 +54,12 @@ class AuthController {
         }
     }
     static async user(req, res) {
-        const user = req.user;
-        return res.json({ user });
+        try {
+            const user = req.user;
+            return res.json({ user });
+        } catch (error) {
+            return res.status(500).json({ message: "Something went wrong, plesae try again." });
+        }
     }
 }
 
